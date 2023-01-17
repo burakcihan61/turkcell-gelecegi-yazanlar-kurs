@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { fetchProduct } from "../../api";
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Text, Button, Box, Image } from "@chakra-ui/react";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,15 +13,23 @@ const ProductDetail = () => {
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
+
   return (
     <div>
       <Button colorScheme="pink">Add to basket</Button>
       <Text as="h2" fontSize="2xl">
         {data.title}
       </Text>
-      <Text as="h2" fontSize="2xl">
-        {data.description}
-      </Text>
+      <p>{data.description}</p>
+      <Box margin="10px">
+        <Image
+          src={data.image}
+          alt="product"
+          loading="laxy"
+          boxSize="500px"
+          objectFit="cover"
+        />
+      </Box>
     </div>
   );
 };

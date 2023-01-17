@@ -6,6 +6,8 @@ import Singin from "./pages/Auth/Signin";
 import Signup from "./pages/Auth/Signup";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 const App = () => {
   return (
@@ -15,10 +17,11 @@ const App = () => {
           <Navbar />
           <div id="content">
             <Switch>
-              <Route path="/" exact component={Products}></Route>
-              <Route path="/products/:id" component={ProductDetail}></Route>
-              <Route path="/signin" component={Singin}></Route>
-              <Route path="/signup" component={Signup}></Route>
+              <Route path="/" exact component={Products} />
+              <Route path="/products/:id" component={ProductDetail} />
+              <Route path="/signin" component={Singin} />
+              <Route path="/signup" component={Signup} />
+              <ProtectedRoute path="/profile" component={Profile} />
             </Switch>
           </div>
         </div>
