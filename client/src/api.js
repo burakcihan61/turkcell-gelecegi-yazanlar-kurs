@@ -19,17 +19,22 @@ axios.interceptors.request.use(
   }
 );
 
-export const fetchProductList = async ({ pageParam = 10 }) => {
+export const fetchProductList = async ({ pageParam = 0 }) => {
   const { data } = await axios.get(
-    `${process.env.REACT_APP_BASE_ENDPOINT}/products?limit=${pageParam}`
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product?pages=${pageParam}`
   );
   return data;
 };
 
 export const fetchProduct = async (id) => {
   const { data } = await axios.get(
-    `${process.env.REACT_APP_BASE_ENDPOINT}/products/${id}`
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product/${id}`
   );
+  return data;
+};
+
+export const postProduct = async (input) => {
+  const { data } = await axios.post(`http://localhost:4000/product`, input);
   return data;
 };
 
@@ -55,5 +60,10 @@ export const fetchLogout = async () => {
   const { data } = await axios.post(`http://localhost:4000/auth/logout`, {
     refresh_token: localStorage.getItem("refresh-token"),
   });
+  return data;
+};
+
+export const postOrder = async (input) => {
+  const { data } = await axios.post(`http://localhost:4000/order`, input);
   return data;
 };
