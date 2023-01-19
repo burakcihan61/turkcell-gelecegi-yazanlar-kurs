@@ -38,9 +38,9 @@ const Basket = () => {
       items: JSON.stringify(itemIds),
     };
 
-    postOrder(input);
+    await postOrder(input);
     emptyBasket();
-    return onClose();
+    onClose();
   };
 
   return (
@@ -52,7 +52,7 @@ const Basket = () => {
         <>
           <ul style={{ listStyleType: "decimal" }}>
             {items.map((item) => (
-              <li key={item.id} style={{ marginBottom: 15 }}>
+              <li key={item._id} style={{ marginBottom: 15 }}>
                 <Link to={`/products/${item.id}`}>
                   <Text fontSize={18} mb={5}>
                     {item.title} - {item.price} TL
@@ -60,7 +60,7 @@ const Basket = () => {
                   <Image
                     loading="layz"
                     htmlWidth={150}
-                    src={item.image}
+                    src={item.photos}
                     alt="basket item"
                   ></Image>
                 </Link>
@@ -69,7 +69,7 @@ const Basket = () => {
                   size="sm"
                   colorScheme="red"
                   onClick={() => {
-                    removeFromBasket(item.id);
+                    removeFromBasket(item._id);
                   }}
                 >
                   Remove from basket

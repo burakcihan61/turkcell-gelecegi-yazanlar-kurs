@@ -6,17 +6,17 @@ import { Text, Button, Box, Image } from "@chakra-ui/react";
 import { useBasket } from "../../context/BasketContext";
 
 const ProductDetail = () => {
-  const { id } = useParams();
+  const { product_id } = useParams();
   const { addToBasket, items } = useBasket();
 
-  const { isLoading, error, data } = useQuery(["product", id], () =>
-    fetchProduct(id)
+  const { isLoading, error, data } = useQuery(["product", product_id], () =>
+    fetchProduct(product_id)
   );
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
 
-  const findBasketItem = items.find((item) => item.id === data._id);
+  const findBasketItem = items.find((item) => item._id === product_id);
 
   return (
     <div>

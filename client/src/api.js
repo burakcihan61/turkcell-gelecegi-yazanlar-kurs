@@ -21,7 +21,7 @@ axios.interceptors.request.use(
 
 export const fetchProductList = async ({ pageParam = 0 }) => {
   const { data } = await axios.get(
-    `${process.env.REACT_APP_BASE_ENDPOINT}/product?pages=${pageParam}`
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product?page=${pageParam}`
   );
   return data;
 };
@@ -34,36 +34,57 @@ export const fetchProduct = async (id) => {
 };
 
 export const postProduct = async (input) => {
-  const { data } = await axios.post(`http://localhost:4000/product`, input);
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}`,
+    input
+  );
   return data;
 };
 
 export const fetchRegister = async (input) => {
   const { data } = await axios.post(
-    `http://localhost:4000/auth/register`,
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/register`,
     input
   );
   return data;
 };
 
 export const fetchLogin = async (input) => {
-  const { data } = await axios.post(`http://localhost:4000/auth/login`, input);
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/login`,
+    input
+  );
   return data;
 };
 
 export const fetchMe = async () => {
-  const { data } = await axios.get(`http://localhost:4000/auth/me`);
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/me`
+  );
   return data;
 };
 
 export const fetchLogout = async () => {
-  const { data } = await axios.post(`http://localhost:4000/auth/logout`, {
-    refresh_token: localStorage.getItem("refresh-token"),
-  });
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/logout`,
+    {
+      refresh_token: localStorage.getItem("refresh-token"),
+    }
+  );
   return data;
 };
 
 export const postOrder = async (input) => {
-  const { data } = await axios.post(`http://localhost:4000/order`, input);
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/order`,
+    input
+  );
+  return data;
+};
+
+export const fetchOrder = async () => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/order`
+  );
   return data;
 };
