@@ -1,6 +1,7 @@
 import React from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { postProduct } from "../../../api";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { fetchProduct, updateProduct } from "../../../api";
 import { FieldArray, Formik } from "formik";
 import {
   Box,
@@ -11,46 +12,44 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import newProductScheme from "./validations";
+import validationSchema from "./validations";
 import { message } from "antd";
 
-const NewProduct = () => {
-  const queryClient = useQueryClient();
-  const newProductMutation = useMutation(postProduct, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("admin:products");
-    },
-  });
+const AdminProductDetail = () => {
+  const { product_id } = useParams();
+  const { isLoading, isError, data, error } = useQuery(
+    ["admin:product", product_id],
+    () => fetchProduct(product_id)
+  );
 
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
   const handleSubmit = async (values, bag) => {
-    console.log(values);
+    console.log("submit");
     message.loading({ content: "Loading...", key: "product_update" });
 
-    const newValues = {
-      ...values,
-      photos: JSON.stringify(values.photos),
-    };
-    newProductMutation.mutate(newValues, {
-      onSuccess: () => {
-        message.success({
-          content: "The product suc",
-          key: "product_update",
-          duration: 2,
-        });
-      },
-    });
+    try {
+      await updateProduct(values, product_id);
+      message.success({
+        content: "Error updating product",
+        key: "product_update",
+        duration: 2,
+      });
+    } catch (error) {
+      message.error("The product doesnt product");
+    }
   };
   return (
     <div>
-      <Text fontSize="2xl">New Product</Text>
+      <Text fontSize="2xl">Edit</Text>
       <Formik
         initialValues={{
-          title: "",
-          description: "",
-          price: "",
-          photos: [],
+          title: data.title,
+          description: data.description,
+          price: data.price,
+          photos: data.photos,
         }}
-        validationSchema={newProductScheme}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({
@@ -147,7 +146,7 @@ const NewProduct = () => {
                     type="submit"
                     isLoading={isSubmitting}
                   >
-                    Save
+                    Update
                   </Button>
                 </form>
               </Box>
@@ -159,4 +158,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default AdminProductDetail;

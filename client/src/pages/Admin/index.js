@@ -6,6 +6,7 @@ import Home from "./Home";
 import Orders from "./Orders";
 import Products from "./Products";
 import NewProduct from "./Products/new";
+import AdminProductDetail from "./ProductDetail";
 
 const Admin = () => {
   const { path, url } = useRouteMatch();
@@ -30,6 +31,11 @@ const Admin = () => {
           <Route path={`${path}/orders`} component={Orders} />
           <Route exact path={`${path}/products`} component={Products} />
           <Route exact path={`${path}/products/new`} component={NewProduct} />
+          <Route
+            exact
+            path={`${path}/products/:product_id`}
+            component={AdminProductDetail}
+          />
         </Switch>
       </Box>
     </div>
